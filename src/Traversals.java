@@ -173,8 +173,44 @@ public class Traversals {
    * @return a list of lists, where each inner list represents a root-to-leaf path in pre-order
    */
   public static <T> List<List<T>> findAllRootToLeafPaths(TreeNode<T> node) {
-    //if leaf - pop and return complete list
     
+    Queue<T> prefix = new LinkedList<>();
+    List<T> temp = new ArrayList<>();
+    List<List<T>> full = new ArrayList<>();
+    if(node == null) return full;
+    if(node.left == null && node.right == null){
+      temp.add(node.value);
+      full.add(temp);
+      return full;
+    } 
+    List<List<T>> left = findAllRootToLeafPathsPre(node.left, prefix, full);//find the left
+    List<List<T>> right = findAllRootToLeafPathsPre(node.right, prefix, full);//find the right
+    //add right to the left
+    for(List<T> l : right){
+      left.add(l);
+    }
+    return left;
+
+
+
+    // List<List<T>> outerList = new ArrayList<>();
+    // List<T> prefixList = new ArrayList<>();
+    // prefixList.add(node.value);
+
+    // if(node.left != null){
+    //   outerList = findAllRootToLeafPathsPre(node.left, prefixList);
+    // }
+
+    // //if leaf - pop from end and return complete list
+    // if(node.right != null){
+    //   List<List<T>> temp = findAllRootToLeafPathsPre(node.right, prefixList);
+    //   for(List<T> list : temp){
+    //     outerList.add(list);
+    //   }
+    //}
+
+    
+
     //check left exists, 
       //write root
       //add to que
@@ -184,32 +220,62 @@ public class Traversals {
       //write root
       //add to que
       //add the right list
-
-
-
-
-
-
-
-
-
-
-
-
-
-    List<List<T>> list = new ArrayList<>();
-    if(node == null) return list;
     
-    Queue<TreeNode<T>> queue = new LinkedList<>();
-    
-    findAllRootToLeafPaths(node, list);
-    return list;
   }
   
-  public static <T> List<List<T>> findAllRootToLeafPaths(TreeNode<T> node, List<T> list) {
+  //I found the idea for a prefix list when looking more into Language models. they store words as a linked list of letters, but prefixes branch to other letters creating new words.
+  public static <T> List<List<T>> findAllRootToLeafPathsPre(TreeNode<T> node, Queue<T> prefixList, List<List<T>> fullList) {
+    if(node == null) return fullList;
+
+    prefixList.add(node.value);
+    //check if leaf then add queue to fullList as a list
+    if(node.left == null && node.right == null){
+      List<T> prePrefix = List.copyOf(prefixList);
+      List<T> prefix = new ArrayList<>();
+      //reverse order
+      for(T e : prePrefix){
+        prefix.add(e);
+      }
+      fullList.add(prefix);
+      prefixList.poll();
+      return fullList;
+    }
+
+
+    if(node.left != null){
+      List<List<T>> left = findAllRootToLeafPathsPre(node.left, prefixList, fullList);
+      if(!left.isEmpty()) {
+        for(List<T> l : left){
+          fullList.add(l);
+        }
+      }
+      
+    }
+    if(node.right != null){
+      List<List<T>> right = findAllRootToLeafPathsPre(node.right, prefixList, fullList);
+      if(!right.isEmpty()) {
+        for(List<T> l : right){
+          fullList.add(l);
+        }
+      }
+    }
     
-    return null;
+    prefixList.poll();
+    return fullList;
+
+
+    // List<List<T>> left = findAllRootToLeafPathsPre(node.left, prefixList, fullList);
+    // List<List<T>> right = findAllRootToLeafPathsPre(node.right, prefixList, fullList);
+  //   List<List<T>> outerList = new ArrayList<>();
+  //   List<T> innerList = prefixList;
+  //   innerList.add(node.value);
+  //   if(node.left == null && node.right == null){
+
+  //     prefixList.remove(prefixList.size()-1);
+  //   }
+    
+  //   return null;
+  // }
+
   }
-
-
 }
