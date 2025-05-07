@@ -173,6 +173,43 @@ public class Traversals {
    * @return a list of lists, where each inner list represents a root-to-leaf path in pre-order
    */
   public static <T> List<List<T>> findAllRootToLeafPaths(TreeNode<T> node) {
+    //if leaf - pop and return complete list
+    
+    //check left exists, 
+      //write root
+      //add to que
+      //add the left list
+
+    //check right
+      //write root
+      //add to que
+      //add the right list
+
+
+
+
+
+
+
+
+
+
+
+
+
+    List<List<T>> list = new ArrayList<>();
+    if(node == null) return list;
+    
+    Queue<TreeNode<T>> queue = new LinkedList<>();
+    
+    findAllRootToLeafPaths(node, list);
+    return list;
+  }
+  
+  public static <T> List<List<T>> findAllRootToLeafPaths(TreeNode<T> node, List<T> list) {
+    
     return null;
   }
+
+
 }
