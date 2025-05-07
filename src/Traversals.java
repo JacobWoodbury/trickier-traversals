@@ -63,15 +63,18 @@ public class Traversals {
   public static <T> List<T> collectLevelOrderValues(TreeNode<T> node) {
     Queue<TreeNode<T>> queue = new LinkedList<>();
     List<T> list = new ArrayList<>();
+    if(node == null) return list;
     queue.add(node);
+
+
     while(!queue.isEmpty()){
-      TreeNode<?> newNode = queue.poll();
-      if(newNode == null){
-        continue;
-      }else{
-        list.add(node.value);
-        queue.add(node.left);
-        queue.add(node.right);
+      TreeNode<T> newNode = queue.poll();
+      if(newNode != null){
+        System.out.println("adding");
+
+        list.add(newNode.value);
+        queue.add(newNode.left);
+        queue.add(newNode.right);
       }
     }
     return list;
