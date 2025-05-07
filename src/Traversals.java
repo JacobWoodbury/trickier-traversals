@@ -32,7 +32,7 @@ public class Traversals {
       return 0;
     }
     
-    return 1 + countInternalNodes(node.left) + countInternalNodes(node.right);
+    return sum++;
     
   
   }
@@ -66,21 +66,15 @@ public class Traversals {
     if(node == null) return list;
     queue.add(node);
 
-
     while(!queue.isEmpty()){
       TreeNode<T> newNode = queue.poll();
       if(newNode != null){
-        System.out.println("adding");
-
         list.add(newNode.value);
         queue.add(newNode.left);
         queue.add(newNode.right);
       }
     }
     return list;
-      
-
-
 }
 
   /**
@@ -91,8 +85,24 @@ public class Traversals {
    * @return the number of unique values in the tree, or 0 if the tree is null
    */
   public static int countDistinctValues(TreeNode<Integer> node) {
-    return 0;
+    Queue<TreeNode<Integer>> queue = new LinkedList<>();
+    List<Integer> list = new ArrayList<>();
+    if(node == null) return 0;
+    queue.add(node);
+
+    while(!queue.isEmpty()){
+      TreeNode<Integer> newNode = queue.poll();
+      if(newNode != null){
+        if(!list.contains(newNode.value)){
+          list.add(newNode.value);
+        }
+        queue.add(newNode.left);
+        queue.add(newNode.right);
+      }
+    }
+    return list.size();
   }
+
 
   /**
    * Determines whether there is at least one root-to-leaf path in the tree
